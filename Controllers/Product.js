@@ -1,4 +1,5 @@
 import Product from "../Model/Product.js";
+import Categories from "../Model/Category.js";
 
 export const getAll = async (req, res) => {
   try {
@@ -12,16 +13,7 @@ export const getOne = async (req, res) => {
 
 export const Add = async (req, res) => {
   try {
-    const newProduct = await Product.create(req.body);
-    return res.status(200).json({
-      message: "Thêm sản phẩm thành công",
-      newProduct,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      message: error,
-    });
-  }
+  } catch (error) {}
 };
 
 export const Update = async (req, res) => {
@@ -31,5 +23,20 @@ export const Update = async (req, res) => {
 
 export const Remove = async (req, res) => {
   try {
-  } catch (error) {}
+    const id = req.params.id;
+    const product = await Product.findByIdAndDelete(id);
+    await Categories.findByIdAndUpdate(product.categoryId, {
+      $pull: {
+        products: product._id,
+      },
+    });
+    return res.status(200).json({
+      message: "Xóa sản phẩm thành công",
+      product,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error,
+    });
+  }
 };
