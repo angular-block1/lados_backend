@@ -11,6 +11,31 @@ const productShema = mongoose.Schema(
       type: Number,
       require: true,
     },
+    quantity: {
+      type: Number,
+      require: true,
+    },
+    size: {
+      type: [String],
+      require: true,
+    },
+    colors: {
+      type: [String],
+      require: true,
+    },
+    images:[String],
+    description:{
+      type: String,
+      require: true,
+    },
+    status:{
+      type: Boolean,
+      default: true,
+    },
+    categoryId:{
+      type:mongoose.Types.ObjectId,
+      ref:'Categories'
+    }
   },
   { timestamps: true }
 );
