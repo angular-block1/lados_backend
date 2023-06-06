@@ -51,7 +51,6 @@ export const Update = async (req, res) => {
 export const Remove = async (req, res) => {
   try {
     const id = req.params.id;
-    console.log(id);
     const product = await Product.findByIdAndDelete(id);
     await Categories.findByIdAndUpdate(product.categoryId, {
       $pull: {
