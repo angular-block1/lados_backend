@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 
 import product from "./Router/Product.js";
+import category from "./Router/Categories.js";
 
 dotenv.config();
 const app = express();
@@ -34,6 +35,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 
 app.use("/product", product);
+app.use("/category", category);
 
 app.listen(port, () => {
   connect();
