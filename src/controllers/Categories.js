@@ -1,17 +1,17 @@
-import Categories from "../Model/Category.js";
-import cateproductShema from "../validate/cate.js";
+import Category from "../models/Category.js";
+import categorySchema from "../validations/category.js";
 
 
 export const add = async (req, res) => {
   try {
-    const { error } = cateproductShema.validate(req.body);
+    const { error } = categorySchema.validate(req.body);
     if (error) {
       const errors = error.details.map((items) => items.message);
       return res.status(401).json({
         message: errors,
       });
     }
-    const newCategory = await Categories.create(req.body);
+    const newCategory = await Category.create(req.body);
     if (!newCategory) {
       return res.status(400).json({
         message: "Thêm sản phẩm thất bại",
