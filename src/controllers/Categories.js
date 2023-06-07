@@ -4,7 +4,7 @@ import categorySchema from "../validations/category.js";
 
 export const add = async (req, res) => {
   try {
-    const { error } = categorySchema.validate(req.body);
+    const { error } = categorySchema.validate(req.body, { abortEarly: false });
     if (error) {
       const errors = error.details.map((items) => items.message);
       return res.status(401).json({

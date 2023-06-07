@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose"
-
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const orderSchema = new Schema({
 	user: {
@@ -16,7 +16,7 @@ const orderSchema = new Schema({
 		type: Object
 	},
 	products: {
-		type: [{ type: Schema.Types.ObjectId, ref: "Product" }],
+		type: Array,
 		default: []
 	},
 	status: {
@@ -33,5 +33,7 @@ const orderSchema = new Schema({
 		default: Date.now,
 	},
 })
+
+orderSchema.plugin(mongoosePaginate);
 
 export default model('Order', orderSchema)

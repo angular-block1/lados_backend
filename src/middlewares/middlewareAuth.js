@@ -1,6 +1,27 @@
 import Jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
+export function verifyAccessToken(req, res, next) {
+  const accessToken = req.headers?.authorization?.split(" ")[1];
+
+  if (!accessToken) {
+    return res.status(401).json({
+      message: "Bạn chưa đăng nhập",
+    });
+  }
+
+  Jwt.verify(accessToken, "oke", (err, payload) => {
+    if (err) {
+      return res.status(401).json({
+        message: err.message
+      });
+    }
+
+    req.user = payload;
+    next();
+  });
+}
+
 const checkAuth = async (req, res, next) => {
   try {
     if (!req.headers.authorization) {
@@ -30,3 +51,5 @@ const checkAuth = async (req, res, next) => {
   }
 };
 export default checkAuth;
+
+

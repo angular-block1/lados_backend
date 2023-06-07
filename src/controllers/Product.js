@@ -11,7 +11,7 @@ export const get = async (req, res) => {
       })
       if (!product) {
         return res.status(404).json({
-          message:"không tìm thấy sản phẩm"
+          message: "không tìm thấy sản phẩm"
         })
       }
       return res.json({
@@ -20,25 +20,25 @@ export const get = async (req, res) => {
       })
 
     }
-      const { _sort = "createdAt", _limit = 10, _page = 1, _order = "desc" } = req.query
-      const options = {
-        sort: _sort,
-        limit: _limit,
-        page: _page,
-        sort: {
-          [_sort]: _order === "desc" ? -1:1
-        }
+    const { _sort = "createdAt", _limit = 10, _page = 1, _order = "desc" } = req.query
+    const options = {
+      sort: _sort,
+      limit: _limit,
+      page: _page,
+      sort: {
+        [_sort]: _order === "desc" ? -1 : 1
       }
-    const { docs: data, totalPages, totalDocs } = await Product.paginate({}, options)
-      if (data.length === 0) {
-        return res.status(204).json({ message: "None of products are found!" })
     }
-      return res.json({
-        message: "Danh sách sản phẩm",
-        data,
-        totalDocs,
-        totalPages
-      })
+    const { docs: data, totalPages, totalDocs } = await Product.paginate({}, options)
+    if (data.length === 0) {
+      return res.status(204).json({ message: "None of products are found!" })
+    }
+    return res.json({
+      message: "Danh sách sản phẩm",
+      data,
+      totalDocs,
+      totalPages
+    })
   } catch (error) {
     return res.status(500).json({
       message: error.message,
@@ -48,7 +48,7 @@ export const get = async (req, res) => {
 
 export const create = async (req, res) => {
   try {
-    const { error } = productShema.validate(req.body);
+    const { error } = productShema.validate(req.body, { abortEarly: false });
     if (error) {
       const errors = error.details.map((items) => items.message);
       return res.status(401).json({
@@ -70,7 +70,7 @@ export const create = async (req, res) => {
 
     return res.status(201).json({
       message: "Thêm sản phẩm thành công",
-      newProduct,
+      data: newProduct,
     });
 
   } catch (error) {
@@ -85,31 +85,31 @@ export const update = async (req, res) => {
     const { id } = req.params
     const foundProduct = await Product.findById(id)
     if (!foundProduct) {
-      return res.status(404).json({message:"không tìm thấy sản phẩm!"})
+      return res.status(404).json({ message: "không tìm thấy sản phẩm!" })
     }
     const { error } = productShema.validate(req.body)
     if (error) {
-      return res.status(400).json({message:error.details[0].message})
+      return res.status(400).json({ message: error.details[0].message })
     }
     const data = await Product.findByIdAndUpdate(id, req.body, { new: true })
     if (req.body.category != foundProduct.category) {
       await Category.findByIdAndUpdate(foundProduct.category, {
-          $pull: {
-              products: req.body._id
-          }
+        $pull: {
+          products: req.body._id
+        }
       })
       await Category.findByIdAndUpdate(req.body.category, {
-          $addToSet: {
-              products: req.body._id
-          }
+        $addToSet: {
+          products: req.body._id
+        }
       })
 
       return res.status(200).json({
         message: "Cập nhật thành công!",
         data
       })
-  }
-  } catch (error) { 
+    }
+  } catch (error) {
     return res.status(500).json({
       message: error.message,
     })
