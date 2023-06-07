@@ -21,6 +21,7 @@ const checkAuth = async (req, res, next) => {
         message: "Bạn không có quyền",
       });
     }
+    req.user = { _id };
     next();
   } catch (error) {
     return res.status(500).json({

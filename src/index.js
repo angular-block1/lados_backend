@@ -5,6 +5,7 @@ import cors from "cors";
 
 import product from "./router/Product.js";
 import category from "./router/Categories.js";
+import auth from "./router/Auth.js";
 
 dotenv.config();
 const app = express();
@@ -37,7 +38,7 @@ app.use(cors(corsOptions));
 
 app.use("/api/product", product);
 app.use("/api/category", category);
-
+app.use("/api/auth", auth);
 app.listen(port, () => {
   connect();
   console.log("server listening on port", port);
