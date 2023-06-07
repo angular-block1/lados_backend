@@ -4,36 +4,33 @@ import productShema from "../validations/product.js";
 
 export const get = async (req, res) => {
   try {
-    const { id } = req.params
+    const { id } = req.params;
 
     if (id) {
       const product = await Product.findById(id).populate({
-        path: "category"
-      })
+        path: "category",
+      });
 
       return res.json({
         message: "Chi tiết sản phẩm",
-        data: product
-      })
-
+        data: product,
+      });
     } else {
       const products = await Product.find(id).populate({
-        path: "category"
-      })
+        path: "category",
+      });
 
       return res.json({
         message: "Danh sách sản phẩm",
-        data: products
-      })
+        data: products,
+      });
     }
-
-
   } catch (error) {
     return res.status(500).json({
       message: error.message,
     });
   }
-}
+};
 
 export const create = async (req, res) => {
   try {
@@ -61,7 +58,6 @@ export const create = async (req, res) => {
       message: "Thêm sản phẩm thành công",
       newProduct,
     });
-
   } catch (error) {
     return res.status(500).json({
       message: error.message,
@@ -71,7 +67,7 @@ export const create = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const remove = async (req, res) => {
@@ -86,6 +82,22 @@ export const remove = async (req, res) => {
     return res.status(200).json({
       message: "Xóa sản phẩm thành công",
       product,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error,
+    });
+  }
+};
+
+export const getAll = async (req, res) => {
+  try {
+    const products = await Product.find().populate({
+      path: "category",
+    });
+    return res.status(200).json({
+      message: "Thành công",
+      products,
     });
   } catch (error) {
     return res.status(500).json({
