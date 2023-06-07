@@ -3,8 +3,8 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
 
-import product from "./Router/Product.js";
-import category from "./Router/Categories.js";
+import product from "./router/Product.js";
+import category from "./router/Categories.js";
 
 dotenv.config();
 const app = express();
@@ -14,9 +14,10 @@ const corsOptions = {
   credentials: true,
 };
 
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   res.send("api working");
 });
+
 mongoose.set("strictQuery", false);
 const connect = async () => {
   try {
@@ -34,8 +35,8 @@ const connect = async () => {
 app.use(express.json());
 app.use(cors(corsOptions));
 
-app.use("/product", product);
-app.use("/category", category);
+app.use("/api/product", product);
+app.use("/api/category", category);
 
 app.listen(port, () => {
   connect();
