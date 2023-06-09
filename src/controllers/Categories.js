@@ -86,11 +86,10 @@ export const getAll = async (req, res) => {
     const cates = await Category.find();
     if (!cates) {
       return res.status(404).json({
-        message: "không tìm thấy",
+        message: "không tìm thấy danh mục",
       });
     }
     return res.json({
-      message: "Thành công",
       data: cates,
     });
   } catch (error) {
