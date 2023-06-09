@@ -47,3 +47,22 @@ export const remove = async (req, res) => {
     });
   }
 };
+export const getOne = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const cate = await Category.findById(id);
+    if (!cate) {
+      return res.status(404).json({
+        message: "không tìm thấy ",
+      });
+    }
+    return res.json({
+      message: "Chi tiết",
+      data: cate,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
