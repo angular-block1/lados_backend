@@ -7,6 +7,8 @@ import product from "./router/Product.js";
 import category from "./router/Categories.js";
 import auth from "./router/Auth.js";
 import order from "./router/Order.js"
+import auth from "./router/Auth.js";
+import order from "./router/Order.js"
 
 dotenv.config();
 const app = express();
@@ -39,6 +41,8 @@ app.use(cors(corsOptions));
 
 app.use("/api/products", product);
 app.use("/api/categories", category);
+app.use("/api/auth", auth);
+app.use("/api/order", order)
 app.use("/api/auth", auth);
 app.use("/api/order", order)
 
