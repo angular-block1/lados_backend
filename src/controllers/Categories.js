@@ -64,8 +64,8 @@ export const remove = async (req, res) => {
 };
 export const getOne = async (req, res) => {
   try {
-    const { id } = req.params;
-    const cate = await Category.findById(id);
+    const { slug } = req.params;
+    const cate = await Category.find({ slug });
     if (!cate) {
       return res.status(404).json({
         message: "không tìm thấy ",

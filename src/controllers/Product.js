@@ -4,9 +4,9 @@ import productShema from "../validations/product.js";
 
 export const get = async (req, res) => {
   try {
-    const { id } = req.params
-    if (id) {
-      const product = await Product.findById(id).populate({
+    const { slug } = req.params
+    if (slug) {
+      const product = await Product.find({slug}).populate({
         path: "category"
       })
       if (!product) {
