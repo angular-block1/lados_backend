@@ -66,3 +66,21 @@ export const getOne = async (req, res) => {
     });
   }
 };
+export const getAll = async (req, res) => {
+  try {
+    const cates = await Category.find();
+    if (!cates) {
+      return res.status(404).json({
+        message: "không tìm thấy",
+      });
+    }
+    return res.json({
+      message: "Thành công",
+      data: cates,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
