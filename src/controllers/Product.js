@@ -31,7 +31,7 @@ export const get = async (req, res) => {
     }
     const { docs: data, totalPages, totalDocs } = await Product.paginate({}, options)
     if (data.length === 0) {
-      return res.status(204).json({ message: "None of products are found!" })
+      return res.status(404).json({ message: "None of products are found!" })
     }
     return res.json({
       message: "Danh sách sản phẩm",
