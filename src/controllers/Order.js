@@ -408,6 +408,9 @@ export const getMonth = async (req, res) => {
           $gte: startOfMonth,
           $lt: endOfMonth,
         },
+        payment: {
+          status: true,
+        },
       });
       const totalAmount = await orders.reduce((acc, item) => {
         return (acc += item.bill);
