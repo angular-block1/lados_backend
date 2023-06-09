@@ -7,6 +7,8 @@ import product from "./router/Product.js";
 import category from "./router/Categories.js";
 import auth from "./router/Auth.js";
 import order from "./router/Order.js"
+import auth from "./router/Auth.js";
+import order from "./router/Order.js"
 
 dotenv.config();
 const app = express();
