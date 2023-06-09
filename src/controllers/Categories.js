@@ -31,15 +31,30 @@ export const add = async (req, res) => {
 export const remove = async (req, res) => {
   try {
     const id = req.params.id;
-    const newCategory = await Category.findByIdAndDelete(id);
-    newCategory.products.forEach(async (item) => {
-      await Product.findByIdAndUpdate(item, {
-        category: "123213123213",
+    const productUpdate = await Product.find({ category: id });
+    for (const product of productUpdate) {
+      await Product.findOneAndUpdate(
+        { _id: product._id },
+        { cateId: "6482d6ccc6a7d73bcdd551a4" },
+        { new: true }
+      );
+    }
+    await Category.findOneAndUpdate(
+      { _id: "6482d6ccc6a7d73bcdd551a4" },
+      {
+        products: [...productUpdate],
+      }
+    );
+
+    const cate = await Category.findOneAndRemove({ _id: id });
+    if (!cate) {
+      return res.status(401).json({
+        message: "Xóa thất bại",
       });
-    });
+    }
     return res.status(200).json({
       message: "Thành công",
-      newCategory,
+      cate,
     });
   } catch (error) {
     return res.status(500).json({
@@ -81,6 +96,41 @@ export const getAll = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message: error.message,
+    });
+  }
+};
+export const cateUpdate = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const body = req.body;
+    const { error } = categorySchema.validate(body);
+    if (error) {
+      const errors = error.details.map((items) => items.message);
+      return res.status(401).json({
+        message: errors,
+      });
+    }
+    const cate = await Category.findOne({ _id: id });
+    const newcate = {
+      name: body.name,
+      slug: body.slug,
+      products: cate.products,
+    };
+    const cateupdated = await Category.findOneAndUpdate({ _id: id }, newcate, {
+      new: true,
+    });
+    if (!cateupdated) {
+      return res.status(401).json({
+        message: "Cập nhật thất bại",
+      });
+    }
+    return res.status(200).json({
+      message: "Thành công",
+      cateupdated,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error,
     });
   }
 };
