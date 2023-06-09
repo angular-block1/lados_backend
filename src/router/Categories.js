@@ -1,8 +1,18 @@
 import express from "express";
-import { add } from "../controllers/Categories.js";
+import {
+  add,
+  cateUpdate,
+  getAll,
+  getOne,
+  remove,
+} from "../controllers/Categories.js";
 
 const router = express.Router();
 
 router.post("/", add);
+router.delete("/:id", remove);
+router.get("/", getAll);
+router.get("/:id", getOne);
+router.put("/:id", cateUpdate);
 
 export default router;
