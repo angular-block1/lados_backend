@@ -3,7 +3,7 @@ import Product from "../models/Product.js"
 import orderSchema from "../validations/order.js"
 import axios from "axios"
 import crypto from "crypto"
-import querystring from "query-string"
+import querystring from "qs"
 import sortObject from 'sortobject'
 import dateFormat from "dateformat"
 
@@ -295,26 +295,25 @@ export async function payMomo(req, res) {
 	}
 }
 
+
 export async function payVnPay(req, res) {
 	try {
-		const { bill, order: _id } = req.body
-		var ipAddr = req.headers['x-forwarded-for'] ||
-			req.connection.remoteAddress ||
-			req.socket.remoteAddress ||
-			req.connection.socket.remoteAddress;
+		const { bill, order: _id } = req.body;
+		var ipAddr = '127.0.0.1';
 		var tmnCode = 'ASEISEUK';
 		var secretKey = 'JPLMHIHUZVKMLEEJBYATSSMPAYJQQWWP';
 		var vnpUrl = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
-		var returnUrl = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html' + `/thanks?_id=${_id}`;
+		var returnUrl =
+			'http://localhost:4200' + `/thanks?_id=${_id}`;
 		var date = new Date();
 		var createDate = dateFormat(date, 'yyyymmddHHmmss');
 		var orderId = dateFormat(date, 'HHmmss');
 		var amount = bill;
-		var bankCode = "NCB";
+		var bankCode = 'NCB';
 
-		var orderInfo = "Nội dung thanh toán";
-		var orderType = "billpayment";
-		var locale = "vn";
+		var orderInfo = 'Nội dung thanh toán';
+		var orderType = 'billpayment';
+		var locale = 'vn';
 		if (locale === null || locale === '') {
 			locale = 'vn';
 		}
@@ -323,7 +322,6 @@ export async function payVnPay(req, res) {
 		vnp_Params['vnp_Version'] = '2.1.0';
 		vnp_Params['vnp_Command'] = 'pay';
 		vnp_Params['vnp_TmnCode'] = tmnCode;
-		// vnp_Params['vnp_Merchant'] = ''
 		vnp_Params['vnp_Locale'] = locale;
 		vnp_Params['vnp_CurrCode'] = currCode;
 		vnp_Params['vnp_TxnRef'] = orderId;
@@ -339,21 +337,24 @@ export async function payVnPay(req, res) {
 
 		vnp_Params = sortObject(vnp_Params);
 
+
+
 		var signData = querystring.stringify(vnp_Params, { encode: false });
-		var hmac = crypto.createHmac("sha512", secretKey);
-		var signed = hmac.update(Buffer.from(signData, 'utf-8')).digest("hex");
+		var hmac = crypto.createHmac('sha512', secretKey);
+		var signed = hmac.update(new Buffer.from(signData, 'utf-8')).digest('hex');
 		vnp_Params['vnp_SecureHash'] = signed;
 		vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: false });
 
 		return res.status(201).json({
-			message: "successfully",
+			message: 'successfully',
 			data: {
-				url: vnpUrl
-			}
-		})
+				url: vnpUrl,
+			},
+		});
 	} catch (error) {
 		return res.status(500).json({
-			message: error.message
-		})
+			message: error.message,
+		});
 	}
 }
+
