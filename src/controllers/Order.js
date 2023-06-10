@@ -329,7 +329,6 @@ export async function payMomo(req, res) {
   }
 }
 
-
 export async function payVnPay(req, res) {
   try {
     const { bill, order: _id } = req.body;
