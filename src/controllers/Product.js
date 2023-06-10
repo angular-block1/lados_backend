@@ -6,7 +6,7 @@ export const get = async (req, res) => {
   try {
     const { slug } = req.params
     if (slug) {
-      const product = await Product.find({slug}).populate({
+      const product = await Product.findOne({slug}).populate({
         path: "category"
       })
       if (!product) {
@@ -20,7 +20,16 @@ export const get = async (req, res) => {
       })
 
     }
-    const { _sort = "createdAt", _limit = 10, _page = 1, _order = "desc" } = req.query
+    const { _sort = "createdAt", _limit = 10, _page = 1, _order = "desc", _category="" } = req.query
+    if (_category !== "") {
+      const data = await Product.find({ category: _category })
+      if (data.length == 0) {
+        return res.status(404).json({
+          message:"Không tìm thấy sản phẩm nào!"
+        })
+      }
+      return res.json({data})
+    }
     const options = {
       sort: _sort,
       limit: _limit,
