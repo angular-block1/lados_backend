@@ -411,9 +411,7 @@ export const getMonth = async (req, res) => {
           status: true,
         },
       });
-      const totalAmount = await orders.reduce((acc, item) => {
-        return (acc += item.bill);
-      }, 0);
+      const totalAmount = await orders.map((item) => item.totalAmount);
       arr.push(totalAmount);
     }
     console.log(arr);
