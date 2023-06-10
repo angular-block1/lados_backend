@@ -27,6 +27,9 @@
     "nodemon": "^2.0.22",
     "query-string": "^8.1.0",
     "querystring": "^0.2.1",
-    "sortobject": "^4.16.0"
+    "sortobject": "^4.16.0",
+    "multer": "^1.4.5-lts.1",
+    "multer-storage-cloudinary": "^4.0.0",
+    "cloudinary": "^1.35.0"
   }
 }
