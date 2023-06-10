@@ -18,7 +18,6 @@ export const get = async (req, res) => {
         message: "Chi tiết sản phẩm",
         data: product
       })
-
     }
     const { _sort = "createdAt", _limit = 10, _page = 1, _order = "desc", _category="" } = req.query
     if (_category !== "") {
