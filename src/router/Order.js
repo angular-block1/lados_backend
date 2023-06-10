@@ -9,12 +9,14 @@ import {
   updateOrder,
   updateOrderStatus,
   getMonth,
+  getAll,
 } from "../controllers/Order.js";
 import { verifyAccessToken } from "../middlewares/middlewareAuth.js";
 
 const router = express.Router();
 router.use(verifyAccessToken);
 router.get("/ds", getMonth);
+router.get("/all", getAll);
 router.get("/me", getOrderByUser);
 router.post("/", create);
 router.get("/:id", get);

@@ -427,3 +427,21 @@ export const getMonth = async (req, res) => {
     });
   }
 };
+export async function getAll(req, res) {
+  try {
+    const orders = await Order.find();
+    if (orders.length == 0) {
+      return res.status(401).json({
+        message: "Không tìm thấy đơn hàng",
+      });
+    }
+    res.json({
+      message: "thành công",
+      data: orders,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+}
