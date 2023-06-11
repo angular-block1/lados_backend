@@ -12,7 +12,7 @@ const router = express.Router();
 router.post("/", add);
 router.delete("/:id", remove);
 router.get("/", getAll);
-router.get("/:id", getOne);
+router.get("/:slug", getOne);
 router.put("/:id", cateUpdate);
 
 export default router;

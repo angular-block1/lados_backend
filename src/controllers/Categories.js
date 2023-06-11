@@ -1,6 +1,6 @@
 import Category from "../models/Category.js";
 import categorySchema from "../validations/category.js";
-import Product from "../models/Product.js";
+
 
 export const add = async (req, res) => {
   try {
@@ -64,8 +64,8 @@ export const remove = async (req, res) => {
 };
 export const getOne = async (req, res) => {
   try {
-    const { id } = req.params;
-    const cate = await Category.findById(id);
+    const { slug } = req.params;
+    const cate = await Category.find({ slug });
     if (!cate) {
       return res.status(404).json({
         message: "không tìm thấy ",
@@ -86,11 +86,10 @@ export const getAll = async (req, res) => {
     const cates = await Category.find();
     if (!cates) {
       return res.status(404).json({
-        message: "không tìm thấy",
+        message: "không tìm thấy danh mục",
       });
     }
     return res.json({
-      message: "Thành công",
       data: cates,
     });
   } catch (error) {
