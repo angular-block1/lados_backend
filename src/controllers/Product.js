@@ -27,7 +27,9 @@ export const get = async (req, res) => {
       _category = "",
     } = req.query;
     if (_category !== "") {
-      const data = await Product.find({ category: _category });
+      const data = await Product.find({ category: _category }).populate({
+        path: "category",
+      });
       if (data.length == 0) {
         return res.status(404).json({
           message: "Không tìm thấy sản phẩm nào!",
@@ -150,6 +152,27 @@ export const remove = async (req, res) => {
     return res.status(200).json({
       message: "Xóa sản phẩm thành công",
       product,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+export const filterPrice = async (req, res) => {
+  try {
+    const price = req.query._price;
+    const min = Number(price.split("-")[0]);
+    const max = Number(price.split("-")[1]);
+    const products = await Product.find({
+      price: { $gte: min, $lte: max },
+    }).populate({
+      path: "category",
+    });
+
+    return res.json({
+      message: "Thành công",
+      data: products,
     });
   } catch (error) {
     return res.status(500).json({
