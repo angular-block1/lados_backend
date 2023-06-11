@@ -1,5 +1,6 @@
 import Category from "../models/Category.js";
 import categorySchema from "../validations/category.js";
+import Product from "../models/Product.js";
 
 
 export const add = async (req, res) => {
@@ -58,7 +59,7 @@ export const remove = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: error,
+      message: error.message,
     });
   }
 };
