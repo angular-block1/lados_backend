@@ -196,7 +196,7 @@ export async function updateOrderStatus(req, res) {
     if (status === "cancelled") {
       for (let item of order.products) {
         const product = await Product.findById(item._id);
-        product.stock += product?.quantity;
+        product.stock += item?.quantity;
         await product.save();
       }
     }
@@ -407,16 +407,11 @@ export const getMonth = async (req, res) => {
           $gte: startOfMonth,
           $lt: endOfMonth,
         },
-        payment: {
-          status: true,
-        },
+        "payment.status": true,
       });
-      const totalAmount = await orders.reduce((acc, item) => {
-        return (acc += item.bill);
-      }, 0);
+      const totalAmount = await orders.map((item) => item.bill);
       arr.push(totalAmount);
     }
-    console.log(arr);
     return res.status(200).json({
       message: "Thành công",
       arr,
@@ -427,3 +422,21 @@ export const getMonth = async (req, res) => {
     });
   }
 };
+export async function getAll(req, res) {
+  try {
+    const orders = await Order.find();
+    if (orders.length == 0) {
+      return res.status(401).json({
+        message: "Không tìm thấy đơn hàng",
+      });
+    }
+    res.json({
+      message: "thành công",
+      data: orders,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+}

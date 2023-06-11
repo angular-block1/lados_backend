@@ -63,6 +63,7 @@ export const signin = async (req, res) => {
     });
     const data = {
       email: user.email,
+      role: user.role,
       name: user.name,
       role: user.role
     };

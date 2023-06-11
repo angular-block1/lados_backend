@@ -1,5 +1,5 @@
 import Category from "../models/Category.js";
-import categorySchema from "../validations/category.js";
+import categorySchema, { categorySchemaupdate } from "../validations/category.js";
 import Product from "../models/Product.js";
 
 
@@ -33,6 +33,7 @@ export const remove = async (req, res) => {
   try {
     const id = req.params.id;
     const productUpdate = await Product.find({ category: id });
+    console.log(productUpdate);
     for (const product of productUpdate) {
       await Product.findOneAndUpdate(
         { _id: product._id },
@@ -103,7 +104,7 @@ export const cateUpdate = async (req, res) => {
   try {
     const id = req.params.id;
     const body = req.body;
-    const { error } = categorySchema.validate(body);
+    const { error } = categorySchemaupdate.validate(body);
     if (error) {
       const errors = error.details.map((items) => items.message);
       return res.status(401).json({

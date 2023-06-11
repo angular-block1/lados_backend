@@ -41,7 +41,7 @@ app.use(cors(corsOptions));
 app.use("/api/products", product);
 app.use("/api/categories", category);
 app.use("/api/auth", auth);
-app.use("/api/order", order)
+app.use("/api/order", order);
 app.use("/api/upload", uploadImageRouter);
 
 app.listen(port, () => {
