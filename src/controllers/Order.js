@@ -164,7 +164,7 @@ export async function cancelOrder(req, res) {
 
     for (let item of products) {
       const product = await Product.findById(item._id);
-      product.stock += product?.quantity;
+      product.stock += item?.quantity;
       await product.save();
     }
 
