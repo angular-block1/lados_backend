@@ -65,6 +65,7 @@ export const signin = async (req, res) => {
       email: user.email,
       role: user.role,
       name: user.name,
+      role: user.role
     };
     return res.status(201).json({
       message: "Đăng nhập thành công",
