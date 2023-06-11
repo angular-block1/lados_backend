@@ -20,7 +20,9 @@ const productShema = new Schema(
       type: Boolean,
       default: true,
     },
-    images: [String],
+    images: {
+      
+    },
     description: {
       type: String,
     },
