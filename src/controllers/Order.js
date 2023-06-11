@@ -407,14 +407,11 @@ export const getMonth = async (req, res) => {
           $gte: startOfMonth,
           $lt: endOfMonth,
         },
-        payment: {
-          status: true,
-        },
+        "payment.status": true,
       });
-      const totalAmount = await orders.map((item) => item.totalAmount);
+      const totalAmount = await orders.map((item) => item.bill);
       arr.push(totalAmount);
     }
-    console.log(arr);
     return res.status(200).json({
       message: "Thành công",
       arr,
