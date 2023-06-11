@@ -2,6 +2,8 @@ import cloudinary from "../config/cloudinaryConfig.js";
 
 export const uploadImage = async (req, res) => {
     const images = req.files.map((file) => file.path);
+
+    console.log(req.files)
     const uploadedImages = [];
     for (const image of images) {
         try {

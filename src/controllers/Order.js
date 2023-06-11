@@ -196,7 +196,7 @@ export async function updateOrderStatus(req, res) {
     if (status === "cancelled") {
       for (let item of order.products) {
         const product = await Product.findById(item._id);
-        product.stock += product?.quantity;
+        product.stock += item?.quantity;
         await product.save();
       }
     }
