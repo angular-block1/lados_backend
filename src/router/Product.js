@@ -5,12 +5,14 @@ import {
   remove,
   update,
   filterPrice,
+  searchProduct,
 } from "../controllers/Product.js";
 
 const router = express.Router();
 
 router.get("/", get);
 router.get("/price", filterPrice);
+router.get("/search", searchProduct);
 router.get("/:slug", get);
 router.post("/", create);
 router.put("/:id", update);

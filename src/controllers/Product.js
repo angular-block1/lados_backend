@@ -180,3 +180,22 @@ export const filterPrice = async (req, res) => {
     });
   }
 };
+export const searchProduct = async (req, res) => {
+  try {
+    const _search = req.query._search;
+    console.log(_search);
+    const products = await Product.find({
+      $text: { $search: _search },
+    }).populate({
+      path: "category",
+    });
+    return res.json({
+      message: "Thành công",
+      data: products,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
