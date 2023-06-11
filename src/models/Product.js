@@ -8,7 +8,7 @@ const productShema = new Schema(
     },
     slug: {
       type: String,
-      required: true
+      required: true,
     },
     price: {
       type: Number,
@@ -20,15 +20,13 @@ const productShema = new Schema(
       type: Boolean,
       default: true,
     },
-    images: {
-      
-    },
+    images: {},
     description: {
       type: String,
     },
     category: {
       type: Schema.Types.ObjectId,
-      ref: "Category"
+      ref: "Category",
     },
     createdAt: {
       type: Date,
@@ -41,6 +39,6 @@ const productShema = new Schema(
   },
   { timestamps: true, collection: "products" }
 );
-
+productShema.index({ name: "text" });
 productShema.plugin(mongoosePaginate);
 export default model("Product", productShema);
