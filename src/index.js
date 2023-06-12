@@ -24,7 +24,7 @@ app.get("/api", (req, res) => {
 mongoose.set("strictQuery", false);
 const connect = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URL, {
+    await mongoose.connect("mongodb+srv://toan:toan123@cluster0.kyvk2ap.mongodb.net/?retryWrites=true&w=majority", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
