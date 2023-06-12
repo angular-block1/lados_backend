@@ -11,7 +11,7 @@ import uploadImageRouter from "./router/upload.js";
 
 dotenv.config();
 const app = express();
-const port = process.env.PORT || 4000;
+const port = 4000;
 const corsOptions = {
   origin: true,
   credentials: true,
