@@ -24,7 +24,7 @@ app.get("/api", (req, res) => {
 mongoose.set("strictQuery", false);
 const connect = async () => {
   try {
-    mongoose.connect(process.env.MONGO_URL, {
+    await mongoose.connect(process.env.MONGO_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
